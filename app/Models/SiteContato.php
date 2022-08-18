@@ -9,7 +9,7 @@ class SiteContato extends Model
 {
     use HasFactory;
     protected $table = 'site_contatos';
-    protected $fillable = ['nome', 'telefone', 'email', 'motivo_contato', 'mensagem'];
+    protected $fillable = ['nome', 'telefone', 'email', 'motivo_contatos_id', 'mensagem'];
 }
 //$contato = SiteContato::where('nome', '<>', 'Genisson')->whereIn('motivo_contato', [])->whereBetween('created_at', ['2022-08-10 14:58:41', '2022-08-10 15:07:42']);
 //$contatos = SiteContato::where('nome', '<>', 'Genisson')->orWhereIn('motivo_contato', [1, 2])->orWhereBetween('created_at', ['2022-08-10 14:58:41', '2022-08-10 15:07:42']);

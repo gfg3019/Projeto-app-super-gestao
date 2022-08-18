@@ -15,16 +15,17 @@ class SiteContatoFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     *
      */
+    protected $model = SiteContato::class;
+
     public function definition()
     {
-        $model = new SiteContato();
-
         $model = [
             'nome' => fake()->name(),
             'telefone' => fake()->tollFreePhoneNumber(),
             'email'=> fake()->unique()->safeEmail(),
-            'motivo_contato' => fake()->randomDigit(),
+            'motivo_contatos_id' => fake()->randomElement(['1', '2', '3']),
             'mensagem' => fake()->text(200)
         ];
         return $model;
