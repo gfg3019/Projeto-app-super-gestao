@@ -14,19 +14,17 @@ class FornecedorController extends Controller
 
     public function listar(Request $request)
     {
-        $fornecedores = new Fornecedor();
-        $fornecedores->where('nome', 'like', '%'.$request->input('nome').'%')
+        $fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%')
             ->where('site', 'like', '%'.$request->input('site').'%')
             ->where('uf', 'like', '%'.$request->input('uf').'%')
             ->where('email', 'like', '%'.$request->input('email').'%')
-            ->get();
-        dd($fornecedores);
-        return view('app.fornecedor.listar');
+            ->paginate(2);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
     }
 
     public function adicionar(Request $request){
         $msg = '';
-        if($request->input('_token') != ''){
+        if($request->input('_token') != '' && $request->input('id') == ''){
             //validação
             $regras = [
                 'nome' => 'required',
@@ -49,6 +47,28 @@ class FornecedorController extends Controller
             $msg = 'Cadastro realizado com sucesso!';
         }
 
+        if($request->input('_token') != '' && $request->input('id') != ''){
+            $fornecedor = Fornecedor::find($request->input('id'));
+            $update = $fornecedor->update($request->all());
+            if($update){
+                $msg = 'Atulização realizado com sucesso!!';
+            }else{
+                $msg = 'Erro ao tentar atualizar';
+            }
+            return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'),'msg' => $msg]);
+        }
+
         return view('app.fornecedor.adicionar', ['msg' => $msg]);
+    }
+
+    public function editar($id, $msg = ''){
+        $fornecedor = Fornecedor::find($id);
+        return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msg' => $msg]);
+    }
+
+    public function excluir($id){
+        Fornecedor::find($id)->delete();
+        Fornecedor::find($id)->forceDelete();
+        return redirect()->route('app.fornecedor');
     }
 }
