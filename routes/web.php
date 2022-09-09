@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,7 +43,7 @@ Route::middleware('auteticacao:ldap,visitante')->prefix('/app')->group(function(
     Route::get('/fornecedor/excluir/{id}', [App\Http\Controllers\FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
     Route::get('/fornecedor/adicionar',[App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
     Route::post('/fornecedor/adicionar',[App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
-    Route::get('/produto', [App\Http\Controllers\ProdutoController::class, 'index'])->name('app.produto');
+    Route::resource('/produto', ProdutoController::class);
 });
 
 Route::get('/teste/{p1}/{p2}', [App\Http\Controllers\TesteController::class, 'teste'])->name('teste');
